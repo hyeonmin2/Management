@@ -1,5 +1,6 @@
 package com.example.management.product;
 
+import com.example.management.product.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,11 @@ public class ProductService {
         newProduct.setName(name);
         newProduct.setPrice(price);
         Product savedProduct = productRepository.save(newProduct);
+        return convertToDto(savedProduct);
+    }
+
+    public ProductDto save(Product product) {
+        Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
     }
 

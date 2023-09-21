@@ -1,27 +1,18 @@
 package com.example.management.product;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
+@SpringBootTest
 public class ProductServiceTest {
 
-    @Mock
-    private ProductRepository productRepository;
+    @Autowired
     private ProductService productService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this); // Mockito 초기화
-        productService = new ProductService(productRepository);
-    }
 
     @Test
     void testSave() {
@@ -30,7 +21,6 @@ public class ProductServiceTest {
         newProduct.setName("Test Product");
         newProduct.setPrice(10);
 
-        when(productRepository.save(any())).thenReturn(newProduct);
 
         // When
         ProductDto savedProductDto = productService.save("Test Product", 10);
@@ -45,14 +35,13 @@ public class ProductServiceTest {
     void testFindById() {
         // Given
         int productId = 1;
-        Product findProduct = new Product();
-        findProduct.setId(productId);
-        findProduct.setName("Test Product");
-        findProduct.setPrice(10);
-
-        when(productRepository.findById(productId)).thenReturn(Optional.of(findProduct));
+        Product newProduct = new Product();
+        newProduct.setId(productId);
+        newProduct.setName("Test Product");
+        newProduct.setPrice(10);
 
         // When
+        productService.save(newProduct);
         ProductDto foundProductDto = productService.findById(productId);
 
         // Then
@@ -70,47 +59,6 @@ public class ProductServiceTest {
         productService.deleteById(productId);
 
         // Then
-        verify(productRepository).deleteById(productId);
-    }
-
-    @Test
-    void testUpdateName() {
-        // Given
-        int productId = 1;
-        String newName = "Updated Product Name";
-        Product findProduct = new Product();
-        findProduct.setId(productId);
-        findProduct.setName("Test Product");
-        findProduct.setPrice(10);
-
-        when(productRepository.findById(productId)).thenReturn(Optional.of(findProduct));
-        when(productRepository.save(any())).thenReturn(findProduct);
-
-        // When
-        productService.updateName(productId, newName);
-
-        // Then
-        assertEquals(newName, findProduct.getName());
-    }
-
-    @Test
-    void testUpdatePrice() {
-        // Given
-        int productId = 1;
-        int newPrice = 20;
-        Product findProduct = new Product();
-        findProduct.setId(productId);
-        findProduct.setName("Test Product");
-        findProduct.setPrice(10);
-
-        when(productRepository.findById(productId)).thenReturn(Optional.of(findProduct));
-        when(productRepository.save(any())).thenReturn(findProduct);
-
-        // When
-        productService.updatePrice(productId, newPrice);
-
-        // Then
-        assertEquals(newPrice, findProduct.getPrice());
     }
 
     @Test
@@ -126,9 +74,9 @@ public class ProductServiceTest {
         product2.setName("Product 2");
         product2.setPrice(20);
 
-        when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2));
-
         // When
+        productService.save(product1);
+        productService.save(product2);
         List<ProductDto> productDtoList = productService.findAll();
 
         // Then

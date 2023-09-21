@@ -1,11 +1,11 @@
-package com.example.management.product;
+package com.example.management.product.repository;
 
-import org.springframework.stereotype.Repository;
+import com.example.management.product.Product;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository {
+public interface ProductRepositoryImp {
 
     Product save(Product newProduct);
 
