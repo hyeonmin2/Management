@@ -1,13 +1,12 @@
-package com.example.management.product;
+package com.example.management.product.repository;
 
-import org.springframework.stereotype.Repository;
+import com.example.management.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class MemoryProductRepository implements ProductRepository{
+public class MemoryProductRepositoryIm implements ProductRepositoryImp {
     List<Product> productList = new ArrayList<>();
 
     @Override
