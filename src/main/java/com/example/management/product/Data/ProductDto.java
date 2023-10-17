@@ -1,4 +1,4 @@
-package com.example.management.product;
+package com.example.management.product.Data;
 
 import lombok.Builder;
 import lombok.Data;
