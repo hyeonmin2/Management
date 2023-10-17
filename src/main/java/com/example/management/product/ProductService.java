@@ -1,6 +1,6 @@
 package com.example.management.product;
 
-import com.example.management.product.repository.ProductRepository;
+import com.example.management.product.Data.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,16 +22,17 @@ public class ProductService {
                 .build();
     }
 
-    public ProductDto save(String name, int price) {
-        Product newProduct = new Product();
-        newProduct.setName(name);
-        newProduct.setPrice(price);
-        Product savedProduct = productRepository.save(newProduct);
-        return convertToDto(savedProduct);
+    public Product convertToProduct(ProductDto productDto) {
+        return Product.builder()
+                .id(productDto.getId())
+                .price(productDto.getPrice())
+                .name(productDto.getName())
+                .build();
     }
 
-    public ProductDto save(Product product) {
-        Product savedProduct = productRepository.save(product);
+    public ProductDto save(ProductDto productDto) {
+        Product newProduct = convertToProduct(productDto);
+        Product savedProduct = productRepository.save(newProduct);
         return convertToDto(savedProduct);
     }
 
@@ -50,23 +51,17 @@ public class ProductService {
         return productDtoList;
     }
 
+    public ProductDto updateProduct(ProductDto productDto) {
+        Product newProduct = convertToProduct(productDto);
+        Product savedProduct = productRepository.save(newProduct);
+        return convertToDto(savedProduct);
+    }
+
     public void deleteById(int id) {
         productRepository.deleteById(id);
     }
 
     public void deleteAll() {
         productRepository.deleteAll();
-    }
-
-    public void updateName(int id, String name) {
-        Product findProduct = productRepository.findById(id).orElseThrow();
-        findProduct.setName(name);
-        productRepository.save(findProduct);
-    }
-
-    public void updatePrice(int id, int price) {
-        Product findProduct = productRepository.findById(id).orElseThrow();
-        findProduct.setPrice(price);
-        productRepository.save(findProduct);
     }
 }
