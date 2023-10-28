@@ -22,14 +22,6 @@ public class ProductService {
                 .build();
     }
 
-    public Product convertToProduct(ProductDto productDto) {
-        return Product.builder()
-                .id(productDto.getId())
-                .price(productDto.getPrice())
-                .name(productDto.getName())
-                .build();
-    }
-
     public ProductDto save(ProductDto productDto) {
         Product newProduct = convertToProduct(productDto);
         Product savedProduct = productRepository.save(newProduct);
@@ -64,4 +56,13 @@ public class ProductService {
     public void deleteAll() {
         productRepository.deleteAll();
     }
+
+    public Product convertToProduct(ProductDto productDto) {
+        return Product.builder()
+                .id(productDto.getId())
+                .price(productDto.getPrice())
+                .name(productDto.getName())
+                .build();
+    }
+
 }

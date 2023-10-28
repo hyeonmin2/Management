@@ -2,6 +2,7 @@ package com.example.management.order;
 
 import com.example.management.order.data.OrderDto;
 import com.example.management.order.data.ProductRequest;
+import com.example.management.orderProduct.OrdersProduct;
 import com.example.management.product.Product;
 import com.example.management.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +20,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public OrderDto convertToDto(Order order) {
-        ArrayList<String> productNames = new ArrayList<>();
-        for (Product product : order.getProducts()) {
-            productNames.add(product.getName());
-        }
-        return OrderDto.builder()
-                .id(order.getId())
-                .productNames(productNames)
-                .build();
-    }
-
     public OrderDto saveNew() {
         Order order = orderRepository.save(new Order());
         return convertToDto(order);
@@ -38,8 +28,11 @@ public class OrderService {
     public OrderDto addProduct(ProductRequest productRequest) {
         int orderId = productRequest.getOrderId();
         int productId = productRequest.getProductId();
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NoSuchElementException("No value present for orderId: " + orderId));
+
+        Order order = orderRepository.findById(orderId).orElseThrow(()
+                -> new NoSuchElementException("No value present for orderId: " + orderId));
         order.addProduct(productRepository.findById(productId).orElseThrow());
+
         return convertToDto(orderRepository.save(order));
     }
 
@@ -71,6 +64,20 @@ public class OrderService {
 
     public void deleteAll() {
         orderRepository.deleteAll();
+    }
+
+    public OrderDto convertToDto(Order order) {
+        ArrayList<String> productNames = new ArrayList<>();
+
+        for (OrdersProduct ordersProduct : order.getOrdersProducts()) {
+            Product product = ordersProduct.getProduct();
+            productNames.add(product.getName());
+        }
+
+        return OrderDto.builder()
+                .id(order.getId())
+                .productNames(productNames)
+                .build();
     }
 
 }
