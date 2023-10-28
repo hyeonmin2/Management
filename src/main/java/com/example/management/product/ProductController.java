@@ -7,39 +7,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@ResponseBody
+@RequestMapping(value = "/product")
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping("/product/save")
+    @PostMapping("/save")
     public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto) {
         return ResponseEntity.ok(productService.save(productDto));
     }
 
-    @GetMapping("/product/find")
+    @GetMapping("/find")
     public ResponseEntity<ProductDto> findProductById(@RequestParam("productId") int productId) {
         return ResponseEntity.ok(productService.findById(productId));
     }
 
-    @GetMapping("/product/findAll")
+    @GetMapping("/find-all")
     public ResponseEntity<FindAllResponse> findAll() {
         FindAllResponse findAllResponse = new FindAllResponse();
         findAllResponse.setProductDtoList(productService.findAll());
         return ResponseEntity.ok(findAllResponse);
     }
 
-    @PutMapping("/product/update")
+    @PutMapping("/update")
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
         return ResponseEntity.ok(productService.updateProduct(productDto));
     }
 
-    @DeleteMapping("/product/delete")
+    @DeleteMapping("/delete")
     public void deleteProductById(@RequestParam("productId") int productId) {
         productService.deleteById(productId);
     }
 
-    @DeleteMapping("/product/deleteAll")
+    @DeleteMapping("/delete-all")
     public void deleteAll() {
         productService.deleteAll();
     }
