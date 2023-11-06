@@ -1,4 +1,4 @@
-package com.example.management.orderProduct;
+package com.example.management.ordersProduct;
 
 import com.example.management.order.Order;
 import com.example.management.product.Product;

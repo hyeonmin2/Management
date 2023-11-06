@@ -1,6 +1,6 @@
 package com.example.management.order;
 
-import com.example.management.orderProduct.OrdersProduct;
+import com.example.management.ordersProduct.OrdersProduct;
 import com.example.management.product.Product;
 import jakarta.persistence.*;
 import lombok.Data;

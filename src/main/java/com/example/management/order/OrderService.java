@@ -2,7 +2,7 @@ package com.example.management.order;
 
 import com.example.management.order.data.OrderDto;
 import com.example.management.order.data.ProductRequest;
-import com.example.management.orderProduct.OrdersProduct;
+import com.example.management.ordersProduct.OrdersProduct;
 import com.example.management.product.Product;
 import com.example.management.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
